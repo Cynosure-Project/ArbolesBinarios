@@ -1,5 +1,5 @@
 
-package Utilidades;
+package logica;
 
 import javax.swing.JOptionPane;
 
@@ -25,20 +25,19 @@ public class Validar {
         return s;
     }
     
-    
-    public int Validarint(String t){
+    public int ValidarInt(String t){
         int i;
-        boolean B;
+        boolean b;
         
         i = 0;
-        B = false;
+        b = false;
         
-        while (!B)
+        while (!b)
         {
             try
             {
                 i = Integer.parseInt(JOptionPane.showInputDialog(null,t, "Opciones del Menú",3));
-                B = true;
+                b = true;
             }
             catch (Exception e)
             {

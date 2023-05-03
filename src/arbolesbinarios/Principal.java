@@ -1,7 +1,7 @@
 
-package Inicio;
+package arbolesbinarios;
 
-public class ArbolesBinarios {
+public class Principal {
 
     public static void main(String[] args) {
         

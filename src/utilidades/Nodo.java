@@ -1,9 +1,9 @@
 
-package Utilidades;
+package utilidades;
 
 public class Nodo {
     
-    private int Dato;
+    private char Dato;
     private Nodo LigaI, LigaD;
     
     public Nodo () {
@@ -12,7 +12,7 @@ public class Nodo {
         LigaD = null;
     }
     
-    public Nodo (int d) {
+    public Nodo (char d) {
         LigaI = null;
         Dato = d;
         LigaD = null;
@@ -22,7 +22,7 @@ public class Nodo {
         return Dato;
     }
     
-    public void setDato(int d) {
+    public void setDato(char d) {
         Dato = d;
     }
     
