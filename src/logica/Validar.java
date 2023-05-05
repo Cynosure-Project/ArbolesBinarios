@@ -12,7 +12,7 @@ public class Validar {
         {
             s = JOptionPane.showInputDialog(t);
             
-            if (!s.matches("[A-Z]")) 
+            if (!s.matches("^[A-Z]+$")) 
             {
                 s = "";
                 
