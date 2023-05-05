@@ -8,7 +8,7 @@ public class Nodo {
     
     public Nodo () {
         LigaI = null;
-        Dato = 0;
+        Dato = ' ';
         LigaD = null;
     }
     
@@ -18,7 +18,7 @@ public class Nodo {
         LigaD = null;
     }
     
-    public int getDato() {
+    public char getDato() {
         return Dato;
     }
     
@@ -41,4 +41,5 @@ public class Nodo {
     public void setLigaD(Nodo L) {
         LigaD = L;
     } 
+    
 }

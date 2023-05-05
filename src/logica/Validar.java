@@ -6,15 +6,13 @@ import javax.swing.JOptionPane;
 public class Validar {
     
     public String ValidarString(String t){
-        String s;
-        
-        s = "";
+        String s = "";
         
         while (s.equals(""))
         {
             s = JOptionPane.showInputDialog(t);
             
-            if (!s.matches("^[A-Za-z ]+$")) 
+            if (!s.matches("^[A-Z]+$")) 
             {
                 s = "";
                 
@@ -26,17 +24,14 @@ public class Validar {
     }
     
     public int ValidarInt(String t){
-        int i;
-        boolean b;
-        
-        i = 0;
-        b = false;
+        int i = 0;
+        boolean b = false;
         
         while (!b)
         {
             try
             {
-                i = Integer.parseInt(JOptionPane.showInputDialog(null,t, "Opciones del Menú",3));
+                i = Integer.parseInt(JOptionPane.showInputDialog(null,t, "Ingreso",3));
                 b = true;
             }
             catch (Exception e)
@@ -48,5 +43,4 @@ public class Validar {
         return i;
     }
      
-    
 }
