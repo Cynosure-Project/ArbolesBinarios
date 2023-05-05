@@ -11,6 +11,4 @@ public class Vista extends Arbol{
         return v.ValidarString("Ingrese letras a agregar en arbol binario (Mayusculas y sin espacios)");
     }
     
-    
-    
 }
