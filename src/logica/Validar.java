@@ -12,7 +12,25 @@ public class Validar {
         {
             s = JOptionPane.showInputDialog(t);
             
-            if (!s.matches("^[A-Z]+$")) 
+            if (!s.matches("^[A-Z]+")) 
+            {
+                s = "";
+                
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa un dato válido", "Validar", 0);
+            }
+        }
+        
+        return s;
+    }
+    
+    public String ValidarChar(String t){
+        String s = "";
+        
+        while (s.equals(""))
+        {
+            s = JOptionPane.showInputDialog(t);
+            
+            if (!s.matches("^[A-Z]")) 
             {
                 s = "";
                 
