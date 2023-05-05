@@ -44,7 +44,7 @@ public class Menu {
                         break;
 
                     case 0:
-                        System.out.println("Gracias por usar nuestros servicios, vuelva");
+                        //System.out.println("Gracias por usar nuestros servicios, vuelva");
                         break;
 
                     default:
