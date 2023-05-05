@@ -23,8 +23,35 @@ public class Arbol {
     public Arbol Crear(String s){
         char[] v;
         Arbol a = new Arbol();
+        int i;
+        Nodo x, p = new Nodo();
         
         v = s.toCharArray();
+        
+        for(i=0; i<v.length; i++)
+        {
+            x = new Nodo();
+            x.setDato(v[i]);
+            
+            if(i == 0)
+            {
+                Raiz = x;
+            }
+            else
+            {
+                if(x.getDato() < p.getDato())
+                {
+                    p.setLigaI(x);
+                }
+                else
+                {
+                    if(x.getDato() > p.getDato())
+                    {
+                        p.setLigaD(x);
+                    }
+                }
+            } 
+        }
         
         return a;
     }
@@ -109,21 +136,9 @@ public class Arbol {
         JOptionPane.showMessageDialog(null, " |" + c + "| ");
     }
     
-    public int ContarHojas(Nodo r, int c){
-        if(r.getLigaI() != null)
-            ContarHojas(r.getLigaI(), c);
+    /*public int ContarHojas(Nodo r, int c){
         
-        if(r.getLigaD() != null)
-            ContarHojas(r.getLigaD(), c);
-        
-        if(r.getLigaI()==null && r.getLigaD()==null)
-            c++;
-        
-        if(r == Raiz)
-            return c;
-        
-        return c; //
-    }
+    }*/
     
     
     
