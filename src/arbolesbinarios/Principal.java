@@ -1,6 +1,7 @@
 
 package arbolesbinarios;
 
+import utilidades.Menu;
 import javax.swing.JOptionPane;
 
 public class Principal {

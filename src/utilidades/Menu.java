@@ -1,6 +1,8 @@
 
-package arbolesbinarios;
+package utilidades;
 
+import logica.Arbol;
+import utilidades.Vista;
 import javax.swing.JOptionPane;
 import utilidades.*;
 import logica.*;
@@ -32,7 +34,7 @@ public class Menu {
                         break;
                         
                     case 2:
-                        
+                        V.VistaInsertar();
                         break;
                         
                     case 3:

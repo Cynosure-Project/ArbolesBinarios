@@ -1,5 +1,6 @@
 
-package arbolesbinarios;
+package utilidades;
+import logica.Arbol;
 import logica.Validar;
 import utilidades.*;
 

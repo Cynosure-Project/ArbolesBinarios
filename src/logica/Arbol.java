@@ -1,8 +1,9 @@
 
-package utilidades;
+package logica;
 
 import arbolesbinarios.*;
 import javax.swing.JOptionPane;
+import utilidades.Nodo;
 
 public class Arbol {
     
@@ -128,17 +129,73 @@ public class Arbol {
         }
     }
     
-    public void Mostrar(){
-        
+    public void Mostrar(Nodo r, int space, int height){
+        // Caso base
+        if (r == null) {
+            return;
+        }
+ 
+        // aumentar la distancia entre niveles
+        space += height;
+ 
+        // imprime el hijo derecho primero
+        Mostrar(r.getLigaD(), space, height);
+        System.out.println();
+ 
+        // imprime el nodo actual después de rellenar con espacios
+        for (int i = height; i < space; i++) {
+            System.out.print(' ');
+        }
+ 
+        System.out.print(r.getDato());
+ 
+        // imprime el hijo izquierdo
+        System.out.println();
+        Mostrar(r.getLigaI(), space, height);
     }
     
     public void Mostrar(char c){
         JOptionPane.showMessageDialog(null, " |" + c + "| ");
     }
     
-    /*public int ContarHojas(Nodo r, int c){
+    public int ContarHojas(Nodo r, int c){
+        if(r != null)
+        {
+            RecorrerInorden(r.getLigaI());
+            RecorrerInorden(r.getLigaD());
+            
+            if(r.getLigaI()==null && r.getLigaD()==null)
+                c++;
+        }
         
-    }*/
+        return c; //que pasa con el return aca?
+    }
+    
+    public int ContarPadres(Nodo r, int c){
+        if(r != null)
+        {
+            RecorrerInorden(r.getLigaI());
+            RecorrerInorden(r.getLigaD());
+            
+            if(r.getLigaI()!=null && r.getLigaD()!=null)
+                c++;
+        }
+        
+        return c;
+    }
+    
+    public int ContarRegistrosCon1Hijo(Nodo r, int c){//nombre epico?
+        if(r != null)
+        {
+            RecorrerInorden(r.getLigaI());
+            RecorrerInorden(r.getLigaD());
+            
+            if((r.getLigaI()==null && r.getLigaD()!=null) || (r.getLigaI()!=null && r.getLigaD()==null))
+                c++;
+        }
+        
+        return c;
+    }
     
     
     
