@@ -14,7 +14,7 @@ public class Menu {
         Arbol a;
         Vista V = new Vista();
         Validar v = new Validar();
-        
+
         do 
         {
             opcion = v.ValidarInt("""

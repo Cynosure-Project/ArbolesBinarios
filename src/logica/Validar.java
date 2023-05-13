@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class Validar {
     
-    public String ValidarString(String t){
+    public static String ValidarString(String t){
         String s = "";
         
         while (s.equals(""))
