@@ -106,7 +106,7 @@ public class Arbol {
         if(r != null)
         {
             RecorrerInorden(r.getLigaI());
-            Mostrar(r.getDato());
+            Mostrar(r.getDato(), " ");
             RecorrerInorden(r.getLigaD());
         }
     }
@@ -114,7 +114,7 @@ public class Arbol {
     public void RecorrerPreorden(Nodo r){
         if(r != null)
         {
-            Mostrar(r.getDato());
+            Mostrar(r.getDato(), " ");
             RecorrerInorden(r.getLigaI());
             RecorrerInorden(r.getLigaD());
         }
@@ -125,7 +125,7 @@ public class Arbol {
         {
             RecorrerInorden(r.getLigaI());
             RecorrerInorden(r.getLigaD());
-            Mostrar(r.getDato());
+            Mostrar(r.getDato(), " ");
         }
     }
     
@@ -154,8 +154,8 @@ public class Arbol {
         Mostrar(r.getLigaI(), space, height);
     }
     
-    public void Mostrar(char c){
-        JOptionPane.showMessageDialog(null, " |" + c + "| ");
+    public void Mostrar(char c, String s){
+        s += c;
     }
     
     public int ContarHojas(Nodo r, int c){
@@ -168,7 +168,7 @@ public class Arbol {
                 c++;
         }
         
-        return c; //que pasa con el return aca?
+        return c;
     }
     
     public int ContarPadres(Nodo r, int c){
@@ -184,7 +184,7 @@ public class Arbol {
         return c;
     }
     
-    public int ContarRegistrosCon1Hijo(Nodo r, int c){//nombre epico?
+    public int ContarRegistrosCon1Hijo(Nodo r, int c){
         if(r != null)
         {
             RecorrerInorden(r.getLigaI());
@@ -195,6 +195,54 @@ public class Arbol {
         }
         
         return c;
+    }
+
+    public Nodo Buscar(Nodo r, char d){
+        Nodo c = new Nodo();
+        
+        if(r.getDato() < d)
+            c = Buscar(r.getLigaD(), d);
+        else
+            if(r.getDato() > d)
+                c = Buscar(r.getLigaI(), d);
+            else
+                if(r.getDato() == d)
+                    return r;
+        
+        return c;
+    }    
+    
+    public int Nivel(Nodo r, char d){
+        int c;
+        
+        c = 0;
+        
+        if(r.getDato() < d)
+            c = Nivel(r.getLigaD(), d)+1;
+        else
+            if(r.getDato() > d)
+                c = Nivel(r.getLigaI(), d)+1;
+            else
+                if(r.getDato() == d)
+                    return 1;
+        
+        return c;
+    }
+    
+    public int Altura(Nodo r){
+        int ci;
+        int cd;
+        
+        ci = -1;
+        cd = -1;
+        
+        if(r != null)
+        {
+            ci = Altura(r.getLigaI())+1;
+            cd = Altura(r.getLigaD())+1;
+        }
+       
+        return Math.max(ci, cd);
     }
     
     
