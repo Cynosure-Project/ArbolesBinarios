@@ -21,40 +21,47 @@ public class Arbol {
         this.Raiz = Raiz;
     }
     
-    public Arbol Crear(String s){
-        char[] v;
-        Arbol a = new Arbol();
-        int i;
-        Nodo x, p = new Nodo();
+    public void Crear(char[] v, int i, Nodo p){
+        Nodo x;
+        boolean b;
         
-        v = s.toCharArray();
+        b = false;
         
-        for(i=0; i<v.length; i++)
+        if(i < v.length)
         {
-            x = new Nodo();
-            x.setDato(v[i]);
+            x = new Nodo(v[i]);
             
             if(i == 0)
             {
                 Raiz = x;
+                Crear(v, i+1, Raiz);
             }
-            else
+            else if(x.getDato() < p.getDato())
             {
-                if(x.getDato() < p.getDato())
-                {
-                    p.setLigaI(x);
-                }
+                if(p.getLigaI() != null)
+                    Crear(v, i, p.getLigaI());
                 else
                 {
-                    if(x.getDato() > p.getDato())
-                    {
-                        p.setLigaD(x);
-                    }
+                    p.setLigaI(x);
+                    
+                    b = true;
                 }
-            } 
+            }
+            else if(x.getDato() > p.getDato())
+            {
+                if(p.getLigaD() != null)
+                    Crear(v, i, p.getLigaD());
+                else
+                {
+                    p.setLigaD(x);
+                    
+                    b = true;
+                }
+            }
         }
         
-        return a;
+        if(b)
+            Crear(v, i+1, Raiz);
     }
  
     public void Insertar(char l){
@@ -106,7 +113,7 @@ public class Arbol {
         if(r != null)
         {
             RecorrerInorden(r.getLigaI());
-            Mostrar(r.getDato(), " ");
+            Mostrar(r.getDato());
             RecorrerInorden(r.getLigaD());
         }
     }
@@ -114,19 +121,23 @@ public class Arbol {
     public void RecorrerPreorden(Nodo r){
         if(r != null)
         {
-            Mostrar(r.getDato(), " ");
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
+            Mostrar(r.getDato());
+            RecorrerPreorden(r.getLigaI());
+            RecorrerPreorden(r.getLigaD());
         }
     }
     
     public void RecorrerPosorden(Nodo r){
         if(r != null)
         {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
-            Mostrar(r.getDato(), " ");
+            RecorrerPosorden(r.getLigaI());
+            RecorrerPosorden(r.getLigaD());
+            Mostrar(r.getDato());
         }
+    }
+    
+    public void Mostrar(char c){
+
     }
     
     public void Mostrar(Nodo r, int space, int height){
@@ -154,28 +165,32 @@ public class Arbol {
         Mostrar(r.getLigaI(), space, height);
     }
     
-    public void Mostrar(char c, String s){
-        s += c;
-    }
-    
-    public int ContarHojas(Nodo r, int c){
+    public int ContarHojas(Nodo r){
+        int c;
+        
+        c = 0;
+        
         if(r != null)
         {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
+            c += ContarHojas(r.getLigaI());
+            c += ContarHojas(r.getLigaD());
             
             if(r.getLigaI()==null && r.getLigaD()==null)
                 c++;
-        }
+        } 
         
         return c;
     }
     
-    public int ContarPadres(Nodo r, int c){
+    public int ContarPadres(Nodo r){
+        int c;
+        
+        c = 0;
+        
         if(r != null)
         {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
+            c += ContarPadres(r.getLigaI());
+            c += ContarPadres(r.getLigaD());
             
             if(r.getLigaI()!=null && r.getLigaD()!=null)
                 c++;
@@ -184,11 +199,15 @@ public class Arbol {
         return c;
     }
     
-    public int ContarRegistrosCon1Hijo(Nodo r, int c){
+    public int ContarRegistrosCon1Hijo(Nodo r){
+        int c;
+        
+        c = 0;
+        
         if(r != null)
         {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
+            c += ContarRegistrosCon1Hijo(r.getLigaI());
+            c += ContarRegistrosCon1Hijo(r.getLigaD());
             
             if((r.getLigaI()==null && r.getLigaD()!=null) || (r.getLigaI()!=null && r.getLigaD()==null))
                 c++;
@@ -197,19 +216,19 @@ public class Arbol {
         return c;
     }
 
-    public Nodo Buscar(Nodo r, char d){
-        Nodo c = new Nodo();
+    public Nodo Buscar(/*inicia en raiz*/Nodo r, char d){
+        Nodo n = new Nodo();
         
         if(r.getDato() < d)
-            c = Buscar(r.getLigaD(), d);
+            n = Buscar(r.getLigaD(), d);
         else
             if(r.getDato() > d)
-                c = Buscar(r.getLigaI(), d);
+                n = Buscar(r.getLigaI(), d);
             else
                 if(r.getDato() == d)
                     return r;
         
-        return c;
+        return n;
     }    
     
     public int Nivel(Nodo r, char d){

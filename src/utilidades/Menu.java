@@ -34,7 +34,7 @@ public class Menu {
                         break;
                         
                     case 2:
-                        V.VistaInsertar();
+                        //V.VistaInsertar();
                         break;
                         
                     case 3:
@@ -42,7 +42,7 @@ public class Menu {
                         break;
                         
                     case 4:
-                        
+                        MenuContar();
                         break;
 
                     case 0:
