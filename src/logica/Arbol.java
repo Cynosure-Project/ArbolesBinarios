@@ -264,6 +264,31 @@ public class Arbol {
         return Math.max(ci, cd);
     }
     
-    
+    public Nodo PrimosHermanos(Nodo r, Nodo p, Nodo a, char d){
+        if(d < r.getDato())
+        {
+            if(r.getLigaI() == null)
+                a = null;
+            else
+                PrimosHermanos(r.getLigaI(), r, p, d);
+        }
+        else if(d > r.getDato())
+        {
+            if(r.getLigaD() == null)
+                a = null;
+            else
+                PrimosHermanos(r.getLigaD(), r, p, d);
+        }
+        
+        if(a != null)
+        {
+            if(p == a.getLigaD())
+                a = a.getLigaI();
+            else
+                a = a.getLigaD();
+        }
+        
+        return a;
+    }
     
 }
