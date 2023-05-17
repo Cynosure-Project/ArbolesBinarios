@@ -8,33 +8,37 @@ import utilidades.*;
 import logica.*;
 
 public class Menu {
+    public static Arbol a;
+    public static Vista V= new Vista();
+    public static Validar v = new Validar();
+    
     
     public static void MenuPrincipal(){
         int opcion;
-        Arbol a;
-        Vista V = new Vista();
-        Validar v = new Validar();
+        
         V.VistaCrear();
         do 
         {
             opcion = v.ValidarInt("""
                                Menu principal
                                   
-                                1. Crear
+                                1. Mostrar Árbol
                                 2. Insertar
                                 3. Recorrer
                                 4. Contar
+                                5. Mostrar   
                                 0. Salir 
                                     """);
 
             switch(opcion)
             {
                     case 1:
+                        V.VistaMostrar();
                         
                         break;
                         
                     case 2:
-                        //V.VistaInsertar();
+                        V.VistaInsertar();
                         break;
                         
                     case 3:
@@ -42,15 +46,17 @@ public class Menu {
                         break;
                         
                     case 4:
-                        
+                        MenuContar();
                         break;
-
+                    case 5:
+                        MenuMostrar();
+                        break;
                     case 0:
-                        //System.out.println("Gracias por usar nuestros servicios, vuelva");
+                        JOptionPane.showMessageDialog(null, "Gracias por probar nuestro proyecto","Salir",3);
                         break;
 
                     default:
-                        System.out.println("Opción no Valida");
+                        JOptionPane.showMessageDialog(null, "Opción incorrecta, ingresa otra opción","Opción invalida",0);
                         break;
             }
         }
@@ -59,9 +65,7 @@ public class Menu {
     
     public static void MenuRecorrer(){
         int opcion;
-        Arbol a;
-        Vista V = new Vista();
-        Validar v = new Validar();
+        
 
         do 
         {
@@ -77,23 +81,23 @@ public class Menu {
             switch(opcion)
             {
                     case 1:
-                        
+                        V.VistaInorden();
                         break;
                         
                     case 2:
-                        
+                        V.VistaPreorden();
                         break;
                         
                     case 3:
-                        
+                        V.VistaPosorden();
                         break;
 
                     case 0:
-                        System.out.println("Gracias por usar nuestros servicios, vuelva");
+    
                         break;
 
                     default:
-                        System.out.println("Opción no Valida");
+                        JOptionPane.showMessageDialog(null, "Opción incorrecta, ingresa otra opción","Opción invalida",0);
                         break;
             }
         }
@@ -120,7 +124,7 @@ public class Menu {
             switch(opcion)
             {
                     case 1:
-                        
+                        V.VistaContarHojas();
                         break;
                         
                     case 2:
@@ -130,17 +134,63 @@ public class Menu {
                     case 3:
                         
                         break;
-
                     case 0:
-                        System.out.println("Gracias por usar nuestros servicios, vuelva");
+    
                         break;
 
                     default:
-                        System.out.println("Opción no Valida");
+                        JOptionPane.showMessageDialog(null, "Opción incorrecta, ingresa otra opción","Opción invalida",0);
                         break;
             }
         }
         while(opcion != 0);
     }
+    
+    public static void MenuMostrar(){
+        int opcion;
+        do 
+        {
+            opcion = v.ValidarInt("""
+                               Menu Mostrar
+                                  
+                                1. Mostrar Altura de un dato.
+                                2. Mostrar nivel de un dato.
+                                3. Mostrar hermano de un dato.
+                                4. Mostrar Ancestros de un dato.
+                                5. Mostrar Primos hermanos de un dato.
+                                0. Salir 
+                                    """);
+
+            switch(opcion)
+            {
+                    case 1:
+                        V.VistaAltura();
+                        break;
+                        
+                    case 2:
+                        V.VistaNivel();
+                        break;
+                        
+                    case 3:
+                        V.VistaHermanos();
+                        break;
+                    case 4:
+                        V.VistaAncestros();
+                        break;
+                    case 5: 
+                        V.VistaPrimosHermanos();
+
+                    case 0:
+    
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opción incorrecta, ingresa otra opción","Opción invalida",0);
+                        break;
+            }
+        }
+        while(opcion != 0);
+    }
+    
     
 }
