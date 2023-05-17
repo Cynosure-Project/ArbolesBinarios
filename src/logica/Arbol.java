@@ -109,30 +109,30 @@ public class Arbol {
         }
     }
     
-    public void RecorrerInorden(Nodo r){
+    public void RecorrerInorden(Nodo r, StringBuilder s){
         if(r != null)
         {
-            RecorrerInorden(r.getLigaI());
-            Mostrar(r.getDato());
-            RecorrerInorden(r.getLigaD());
+            RecorrerInorden(r.getLigaI(), s);
+            s.append(r.getDato()).append(" ");
+            RecorrerInorden(r.getLigaD(), s);
         }
     }
     
-    public void RecorrerPreorden(Nodo r){
+    public void RecorrerPreorden(Nodo r, StringBuilder s){
         if(r != null)
         {
-            Mostrar(r.getDato());
-            RecorrerPreorden(r.getLigaI());
-            RecorrerPreorden(r.getLigaD());
+            s.append(r.getDato()).append(" ");
+            RecorrerPreorden(r.getLigaI(), s);
+            RecorrerPreorden(r.getLigaD(), s);
         }
     }
     
-    public void RecorrerPosorden(Nodo r){
+    public void RecorrerPosorden(Nodo r, StringBuilder s){
         if(r != null)
         {
-            RecorrerPosorden(r.getLigaI());
-            RecorrerPosorden(r.getLigaD());
-            Mostrar(r.getDato());
+            RecorrerPosorden(r.getLigaI(), s);
+            RecorrerPosorden(r.getLigaD(), s);
+            s.append(r.getDato()).append(" ");
         }
     }
     
