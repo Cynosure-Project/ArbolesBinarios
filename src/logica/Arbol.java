@@ -78,50 +78,28 @@ public class Arbol extends JPanel {
             Crear(v, i+1, Raiz);
     }
  
-    public void Insertar(char l){
-        Nodo p, x;
-        boolean b;
+    public void Insertar(Nodo r, char d) 
+     {
+        Nodo x = new Nodo(d);
         
-        x = new Nodo(l);
-        b = true;
-        
-        if(Raiz == null)
-            Raiz = x;
-        else
+        if(r != null)
         {
-            p = Raiz;
-            
-            while(b)
+            if(r.getDato()>d)
             {
-                if(l<p.getDato() && p.getLigaI()!=null)
-                    p = p.getLigaI();
+                if(r.getLigaI() == null)
+                    r.setLigaI(x);
                 else
-                {
-                    if(l < p.getDato())
-                        b = false;
-                }
-                
-                if(l>p.getDato() && p.getLigaD()!=null)
-                    p = p.getLigaD();
-                else
-                {
-                    if(l > p.getDato())
-                        b = false;
-                }
-                
-                if(l == p.getDato())
-                    b = false;
+                    Insertar(r.getLigaI(), d); 
             }
-            
-            if(l < p.getDato())
-                p.setLigaI(x);
             else
-                if(l > p.getDato())
-                    p.setLigaD(x);
+            {
+                if(r.getLigaD()==null)
+                    r.setLigaD(x);
                 else
-                    System.out.println("Ya existe el dato en el árbol");
+                    Insertar(r.getLigaD(), d); 
+            }
         }
-    }
+     }
     
     public void RecorrerInorden(Nodo r, StringBuilder s){
         if(r != null)
@@ -149,55 +127,39 @@ public class Arbol extends JPanel {
             s.append(r.getDato()).append(" ");
         }
     }
-    
-    public int ContarHojas(Nodo r){
-        int c;
+
+    public int ContarHojas(Nodo r) {
+        if(r==null)
+            return 0;
+        if (r.getLigaI() == null && r.getLigaD() == null)
+            return 1;
         
-        c = 0;
-        
-        if(r != null)
-        {
-            c += ContarHojas(r.getLigaI());
-            c += ContarHojas(r.getLigaD());
-            
-            if(r.getLigaI()==null && r.getLigaD()==null)
-                c++;
-        } 
-        
-        return c;
+        int contI = ContarHojas(r.getLigaI());
+        int contD = ContarHojas(r.getLigaD());
+
+        return contI + contD;
     }
     
-    public int ContarPadres(Nodo r){
-        int c;
-        
-        c = 0;
-        
-        if(r != null)
-        {
-            c += ContarPadres(r.getLigaI());
-            c += ContarPadres(r.getLigaD());
-            
-            if(r.getLigaI()!=null && r.getLigaD()!=null)
-                c++;
-        }
-        
-        return c;
+    public int ContarPadres(Nodo r) {
+        if (r == null)
+            return 0;
+        if (r.getLigaI() != null || r.getLigaD() != null)
+            return 1 + ContarPadres(r.getLigaI()) + ContarPadres(r.getLigaD());
+
+        return 0;
     }
     
-    public int ContarRegistrosCon1Hijo(Nodo r){
-        int c;
+    public int ContarRegistrosCon1Hijo(Nodo r) {
+        int c=0;
         
-        c = 0;
-        
-        if(r != null)
-        {
-            c += ContarRegistrosCon1Hijo(r.getLigaI());
-            c += ContarRegistrosCon1Hijo(r.getLigaD());
-            
-            if((r.getLigaI()==null && r.getLigaD()!=null) || (r.getLigaI()!=null && r.getLigaD()==null))
-                c++;
-        }
-        
+        if (r == null)
+            return 0;
+        if ((r.getLigaI() != null && r.getLigaD() == null) || (r.getLigaI() == null && r.getLigaD() != null))
+            c++;
+
+        c += ContarRegistrosCon1Hijo(r.getLigaI());
+        c += ContarRegistrosCon1Hijo(r.getLigaD());
+
         return c;
     }
 
