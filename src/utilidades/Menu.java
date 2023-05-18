@@ -11,12 +11,12 @@ public class Menu {
     public static Arbol a;
     public static Vista V= new Vista();
     public static Validar v = new Validar();
-    
+   
     
     public static void MenuPrincipal(){
         int opcion;
+         V.VistaCrear();
         
-        V.VistaCrear();
         do 
         {
             opcion = v.ValidarInt("""
@@ -106,9 +106,7 @@ public class Menu {
     
     public static void MenuContar(){
         int opcion;
-        Arbol a;
-        Vista V = new Vista();
-        Validar v = new Validar();
+       
 
         do 
         {
@@ -128,11 +126,11 @@ public class Menu {
                         break;
                         
                     case 2:
-                        
+                        V.VistaContarPadres();
                         break;
                         
                     case 3:
-                        
+                        V.VistaRegistroscon1Hijo();
                         break;
                     case 0:
     

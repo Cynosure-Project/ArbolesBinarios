@@ -20,7 +20,35 @@ public class Arbol {
     public void setRaiz(Nodo Raiz) {
         this.Raiz = Raiz;
     }
-    
+//   public void Crear(char[] v, int i, Nodo p) {
+//        if (i < v.length) {
+//            Nodo x = new Nodo(v[i]);
+//
+//            if (i == 0) {
+//                this.setRaiz(x);
+//                Crear(v, i + 1, Raiz);
+//            } else if (x.getDato() < p.getDato()) {
+//                if (p.getLigaI() != null)
+//                    Crear(v, i, p.getLigaI());
+//                else {
+//                    p.setLigaI(x);
+//                    Crear(v, i + 1, Raiz);
+//                }
+//            } else if (x.getDato() > p.getDato()) {
+//                if (p.getLigaD() != null)
+//                    Crear(v, i, p.getLigaD());
+//                else {
+//                    p.setLigaD(x);
+//                    Crear(v, i + 1, Raiz);
+//                }
+//            } else if (x.getDato() == p.getDato()) {
+//                // Si el dato es igual, no se realiza ninguna acción.
+//            }
+//        }
+//    
+//}
+
+
     public void Crear(char[] v, int i, Nodo p){
         Nodo x;
         boolean b;
@@ -63,25 +91,15 @@ public class Arbol {
                 b = true;
             }
         }
-        
-        if(b)
-            Crear(v, i+1, Raiz);
-    }
- 
-    public void contar(Nodo R, int c)
-    {
-        if(R!=null)
+       
+        if (b)
         {
-            contar(R.getLigaI(), c);
-            contar(R.getLigaD(),c);
-            if(R.getLigaI()==null && R.getLigaD()==null)
-            {
-             contar(R,c++);
-
-            }
+         Crear(v, i + 1, Raiz);
         }
         
     }
+ 
+
      public void Insertar(Nodo R, char dato) {
         if (R == null)
         {
@@ -145,59 +163,71 @@ public class Arbol {
             s.append(r.getDato()).append(" ");
         }
     }
-    
-    public int ContarHojas(Nodo r){
-        int c;
-        
-        c = 0;
-        
-        if(r != null)
-        {
-            c += ContarHojas(r.getLigaI());
-            c += ContarHojas(r.getLigaD());
-            
-            if(r.getLigaI()==null && r.getLigaD()==null)
-                c++;
-        } 
-        
-        return c;
+    public int ContarHojas(Nodo r) {
+    if(r==null)
+    {
+        return 0;
+    }
+    if (r.getLigaI() == null && r.getLigaD() == null) {
+        return 1;
+    }
+    int contI = ContarHojas(r.getLigaI());
+    int contD = ContarHojas(r.getLigaD());
+
+    return contI + contD;
+}
+ 
+     public int ContarPadres(Nodo r) {
+    if (r == null) {
+        return 0;
+    }
+
+    if (r.getLigaI() != null || r.getLigaD() != null) {
+        return 1 + ContarPadres(r.getLigaI()) + ContarPadres(r.getLigaD());
+    }
+
+    return 0;
     }
     
-     public int ContarPadres(Nodo r){
-        int c;
-        
-        c = 0;
-        
-        if(r != null)
+     public int ContarRegistrosCon1Hijo(Nodo r) {
+        int c=0;
+        if (r == null)
         {
-            c += ContarPadres(r.getLigaI());
-            c += ContarPadres(r.getLigaD());
-            
-            if(r.getLigaI()!=null && r.getLigaD()!=null)
-                c++;
+            return 0;
         }
-        
+
+        if ((r.getLigaI() != null && r.getLigaD() == null) || (r.getLigaI() == null && r.getLigaD() != null))
+        {
+            c++;
+        }
+
+        c += ContarRegistrosCon1Hijo(r.getLigaI());
+        c += ContarRegistrosCon1Hijo(r.getLigaD());
+
         return c;
     }
-    
      
-    public int ContarRegistrosCon1Hijo(Nodo r){
-        int c;
-        
-        c = 0;
-        
-        if(r != null)
+ public boolean BuscarDato(Nodo R, char dato) {
+        if (R == null)
         {
-            c += ContarRegistrosCon1Hijo(r.getLigaI());
-            c += ContarRegistrosCon1Hijo(r.getLigaD());
-            
-            if((r.getLigaI()==null && r.getLigaD()!=null) || (r.getLigaI()!=null && r.getLigaD()==null))
-                c++;
+            return false;
         }
-        
-        return c;
+
+        if (R.getDato() == dato)
+        {
+            return true;
+        }
+
+        if (dato < R.getDato())
+        {
+            return BuscarDato(R.getLigaI(), dato);
+        } else
+        {
+            return BuscarDato(R.getLigaD(), dato);
+        }
     }
-     public Nodo Buscar(/*inicia en raiz*/Nodo r, char d){
+
+     public Nodo Buscar(Nodo r, char d){
         Nodo n = new Nodo();
         
         if(r.getDato() < d)
@@ -261,49 +291,53 @@ public class Arbol {
         }
     }
     
-    public void Ancestros(Nodo R, char dato, Nodo P, boolean b) {
-        if (R != null && b) {
-            if (R == Raiz && R.getDato() == dato) {
-                JOptionPane.showMessageDialog(null, "No tiene ancestros");
-                b = false;
-            } else if (R != Raiz && R.getDato() == dato) {
-                b = false;
-            }
+public void Ancestros(Nodo R, char dato, Nodo P, boolean b, StringBuilder sb) {
+    if (R != null && b) {
+        if (R == Raiz && R.getDato() == dato) {
+            sb.append("No tiene ancestros");
+            b = false;
+        } else if (R != Raiz && R.getDato() == dato) {
+            b = false;
+        }
 
-            if (b) {
-                JOptionPane.showMessageDialog(null, "Su ancestro"+ R.getDato());
-                if (R.getDato() < dato) {
-                    Ancestros(R.getLigaD(), dato, R, b);
+        if (b) {
+            sb.append(R.getDato()).append(" ");
+            if (R.getDato() < dato) {
+                Ancestros(R.getLigaD(), dato, R, b, sb);
+            } else {
+                Ancestros(R.getLigaI(), dato, R, b, sb);
+            }
+        }
+    }
+}
+
+
+
+public void Hermano(Nodo R, char dato, Nodo P) {
+    if (R != null) {
+        Hermano(R.getLigaI(), dato, R);
+        
+        if (R.getDato() == dato && R == Raiz) {
+            JOptionPane.showMessageDialog(null, "No tiene hermanos");
+        } else if (R.getDato() == dato && R != Raiz) {
+            if (P != null) {
+                if (P.getLigaD() != null && P.getLigaD() != R) {
+                    JOptionPane.showMessageDialog(null, "Hermano derecho: " + P.getLigaD().getDato());
+                } else if (P.getLigaI() != null && P.getLigaI() != R) {
+                    JOptionPane.showMessageDialog(null, "Hermano izquierdo: " + P.getLigaI().getDato());
                 } else {
-                    Ancestros(R.getLigaI(), dato, R, b);
-                }
-            }
-
-        }
-    
-    }
-     public void Hermano(Nodo R, char dato, Nodo P) {
-        if (R != null) 
-        {
-           Hermano(R.getLigaI(), dato, R);
-                if (R.getDato() == dato && R == Raiz) 
-                {
                     JOptionPane.showMessageDialog(null, "No tiene hermanos");
-                } else if (R.getDato() == dato && R != Raiz) {
-                    
-                    if (P.getLigaI().getDato() != R.getDato()) 
-                    {
-                       JOptionPane.showMessageDialog(null,"Hermano izquierdo:" + P.getLigaI().getDato());
-                    } else 
-                    {
-                        JOptionPane.showMessageDialog(null,"Hermano derecho:" + P.getLigaD().getDato());
-                    }
                 }
-
-                Hermano(R.getLigaD(), dato, R);
-
+            } else {
+                JOptionPane.showMessageDialog(null, "No tiene hermanos");
+            }
         }
+
+        Hermano(R.getLigaD(), dato, R);
     }
+}
+
+
      public int Altura(Nodo r){
         int ci;
         int cd;
@@ -313,8 +347,8 @@ public class Arbol {
         
         if(r != null)
         {
-            ci = Altura(r.getLigaI())+1;
-            cd = Altura(r.getLigaD())+1;
+            ci = Arbol.this.Altura(r.getLigaI())+1;
+            cd = Arbol.this.Altura(r.getLigaD())+1;
         }
        
         return Math.max(ci, cd);
