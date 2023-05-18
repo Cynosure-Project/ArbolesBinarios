@@ -4,12 +4,23 @@ package utilidades;
 public class Nodo {
     
     private char Dato;
+    private int FB;
     private Nodo LigaI, LigaD;
     
     public Nodo () {
         LigaI = null;
         Dato = '\0';
         LigaD = null;
+        FB=0;
+        
+    }
+
+    public int getFB() {
+        return FB;
+    }
+
+    public void setFB(int FB) {
+        this.FB = FB;
     }
     
     public Nodo (char d) {

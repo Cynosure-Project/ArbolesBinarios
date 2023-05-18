@@ -3,9 +3,10 @@ package logica;
 
 import arbolesbinarios.*;
 import javax.swing.JOptionPane;
+
 import utilidades.Nodo;
 
-public class Arbol {
+public class Arbol  {
     
     private Nodo Raiz;
     
@@ -315,5 +316,92 @@ public void Hermano(Nodo R, char dato, Nodo P) {
        
         return Math.max(ci, cd);
     }
+     ///        ------>    AVL   <-------     ///////////
+      public int FB(Nodo x) {
+    
+    if (x == null) {
+        return -1;
+    }
+    
+    int ci = Altura(x.getLigaI());
+    
+    int cd = Altura(x.getLigaD());
+   
+    return cd - ci;
+}
+     
+    public Nodo RotacionIzquierda(Nodo P) {
+        Nodo Q = P.getLigaI();
+        P.setLigaI(Q.getLigaD());
+        Q.setLigaD(P);
+        P.setFB(Math.max(FB(P.getLigaI()), FB(P.getLigaD())) + 1);
+        Q.setFB(Math.max(FB(Q.getLigaI()), FB(Q.getLigaD())) + 1);
+        return Q;
+    }
+
+    public Nodo RotacionDerecha(Nodo P) {
+        Nodo Q = P.getLigaD();
+        P.setLigaD(Q.getLigaI());
+        Q.setLigaD(P);
+        P.setFB(Math.max(FB(P.getLigaI()), FB(P.getLigaD())) + 1);
+        Q.setFB(Math.max(FB(Q.getLigaI()), FB(Q.getLigaD())) + 1);
+        return Q;
+    }
+
+    public Nodo RotacionDobleIzquierda(Nodo P) {
+        Nodo R;
+        P.setLigaI(RotacionDerecha(P.getLigaI()));
+        R = RotacionIzquierda(P);
+        return R;
+    }
+
+    public Nodo RotacionDobleDerecha(Nodo P) {
+        Nodo R;
+        P.setLigaD(RotacionDerecha(P.getLigaD()));
+        R = RotacionDerecha(P);
+        return R;
+    }
+    public void ImplementarAvl(Nodo R) {
+    
+    if (R == null) {
+        return;
+    }
+    
+    int fb = FB(R);
+    
+    if (fb > 1) {
+        
+        int fbd = FB(R.getLigaD());
+        
+        if (fbd >= 0) {
+            
+            R = RotacionIzquierda(R);
+        }
+        
+        else {
+            
+            R = RotacionDobleIzquierda(R);
+        }
+    }
+    
+    else if (fb < -1) {
+        
+        int fbi = FB(R.getLigaI());
+        
+        if (fbi <= 0) {
+            
+            R = RotacionDerecha(R);
+        }
+        
+        else {
+            
+            R = RotacionDobleDerecha(R);
+        }
+    }
+    
+    ImplementarAvl(R.getLigaI());
+    ImplementarAvl(R.getLigaD());
+}
+
 
 }

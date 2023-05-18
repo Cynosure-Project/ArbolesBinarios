@@ -3,7 +3,7 @@ package utilidades;
 import javax.swing.JOptionPane;
 import logica.Arbol;
 import logica.Validar;
-import utilidades.*;
+
 
 public class Vista extends Arbol{
     
@@ -84,7 +84,13 @@ public class Vista extends Arbol{
     }
     public void VistaPrimosHermanos()
     {
+        JOptionPane.showMessageDialog(null,"El factor de balance es "+super.FB(this.getRaiz()),"Dato no encontrado",0);
         
+        
+    }
+    public void VistaAVL()
+    {
+        super.ImplementarAvl(this.getRaiz());
     }
     
     
