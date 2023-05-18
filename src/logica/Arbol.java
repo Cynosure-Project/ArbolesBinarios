@@ -136,10 +136,6 @@ public class Arbol {
         }
     }
     
-    public void Mostrar(char c){
-
-    }
-    
     public void Mostrar(Nodo r, int space, int height){
         // Caso base
         if (r == null) {
@@ -217,7 +213,7 @@ public class Arbol {
     }
 
     public Nodo Buscar(/*inicia en raiz*/Nodo r, char d){
-        Nodo n = new Nodo();
+        Nodo n = null;
         
         if(r.getDato() < d)
             n = Buscar(r.getLigaD(), d);
@@ -291,6 +287,78 @@ public class Arbol {
         return a;
     }
     
+    public boolean BuscarDato(Nodo R, char dato) {
+        if (R == null)
+            return false;
+
+        if (R.getDato() == dato)
+            return true;
+
+        if (dato < R.getDato())
+            return BuscarDato(R.getLigaI(), dato);
+        else
+            return BuscarDato(R.getLigaD(), dato);
+    }
     
+    public void Mostrar(Nodo R, StringBuilder s)
+    {   
+        if(R!=null)
+        {   
+            Mostrar(R.getLigaI(), s);
+            s.append(R.getDato()).append(" "); 
+            Mostrar(R.getLigaD(), s);
+        }
+    }
+    
+    public void Hermano(Nodo R, char dato, Nodo P) {
+        if (R != null) 
+        {
+            Hermano(R.getLigaI(), dato, R);
+
+            if (R.getDato() == dato && R == Raiz) 
+                JOptionPane.showMessageDialog(null, "No tiene hermanos");
+            else if (R.getDato() == dato && R != Raiz) 
+            {
+                if (P != null) 
+                {
+                    if (P.getLigaD() != null && P.getLigaD() != R) 
+                        JOptionPane.showMessageDialog(null, "Hermano derecho: " + P.getLigaD().getDato());
+                    else if (P.getLigaI() != null && P.getLigaI() != R) 
+                        JOptionPane.showMessageDialog(null, "Hermano izquierdo: " + P.getLigaI().getDato());
+                    else 
+                        JOptionPane.showMessageDialog(null, "No tiene hermanos");
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(null, "No tiene hermanos");
+                }
+            }
+
+            Hermano(R.getLigaD(), dato, R);
+        }
+    }
+    
+    public void Ancestros(Nodo R, char dato, Nodo P, boolean b, StringBuilder sb) {
+        if (R != null && b) 
+        {
+            if (R == Raiz && R.getDato() == dato) 
+            {
+                sb.append("No tiene ancestros");
+                b = false;
+            } 
+            else if (R != Raiz && R.getDato() == dato) 
+                b = false;
+
+            if (b) 
+            {
+                sb.append(R.getDato()).append(" ");
+                
+                if (R.getDato() < dato) 
+                    Ancestros(R.getLigaD(), dato, R, b, sb);
+                else 
+                    Ancestros(R.getLigaI(), dato, R, b, sb);
+            }
+        }
+    }
     
 }

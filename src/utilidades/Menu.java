@@ -11,7 +11,6 @@ public class Menu {
     
     public static void MenuPrincipal(){
         int opcion;
-        Arbol a;
         Vista V = new Vista();
         Validar v = new Validar();
 
