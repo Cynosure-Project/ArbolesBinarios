@@ -23,6 +23,7 @@ public class Menu {
                                 2. Insertar
                                 3. Recorrer
                                 4. Contar
+                                5. Mostrar
                                 0. Salir 
                                     """);
 
@@ -42,6 +43,10 @@ public class Menu {
                         
                     case 4:
                         MenuContar();
+                        break;
+                        
+                    case 5:
+                        V.VistaGrafica();
                         break;
 
                     case 0:

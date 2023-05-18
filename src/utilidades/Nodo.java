@@ -5,6 +5,7 @@ public class Nodo {
     
     private char Dato;
     private Nodo LigaI, LigaD;
+    public Object num;
     
     public Nodo () {
         LigaI = null;

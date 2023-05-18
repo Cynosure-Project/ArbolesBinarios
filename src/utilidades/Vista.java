@@ -1,9 +1,13 @@
 
 package utilidades;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import logica.Arbol;
 import logica.Validar;
 import utilidades.*;
+import java.awt.Dimension;
 
 public class Vista extends Arbol{
     
@@ -89,7 +93,18 @@ public class Vista extends Arbol{
         Validar v = new Validar();
         char c = v.ValidarChar("¿De qué dato deseas hallar sus hermanos?: ");
         
+        Nodo a = PrimosHermanos(Buscar(this.getRaiz(), c), null, null, c);
         
+        if(a==null)
+            JOptionPane.showMessageDialog(null,"El nodo no posee primos");
+        else if(a.getLigaI()==null && a.getLigaD()==null)
+            JOptionPane.showMessageDialog(null,"El nodo no posee primos");
+        else if(a.getLigaI()==null)
+            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + a.getLigaD().getDato());
+        else if(a.getLigaD()==null)
+            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + a.getLigaI().getDato());
+        else
+            JOptionPane.showMessageDialog(null,"Los primos hermanos de " + c + " son: " + a.getLigaI().getDato() + " y " + a.getLigaD().getDato());
     }
     
     public void VistaAncestros() {
@@ -142,6 +157,13 @@ public class Vista extends Arbol{
        }
     }
     
+    public void VistaGrafica()
+    {   
+        SwingUtilities.invokeLater(() -> {
+            super.createAndShowGUI();
+        });
+    }
+   
     
     
 }

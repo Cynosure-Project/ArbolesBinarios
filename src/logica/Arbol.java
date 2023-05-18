@@ -2,10 +2,24 @@
 package logica;
 
 import arbolesbinarios.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import utilidades.Nodo;
 
-public class Arbol {
+public class Arbol extends JPanel {
     
     private Nodo Raiz;
     
@@ -134,31 +148,6 @@ public class Arbol {
             RecorrerPosorden(r.getLigaD(), s);
             s.append(r.getDato()).append(" ");
         }
-    }
-    
-    public void Mostrar(Nodo r, int space, int height){
-        // Caso base
-        if (r == null) {
-            return;
-        }
- 
-        // aumentar la distancia entre niveles
-        space += height;
- 
-        // imprime el hijo derecho primero
-        Mostrar(r.getLigaD(), space, height);
-        System.out.println();
- 
-        // imprime el nodo actual después de rellenar con espacios
-        for (int i = height; i < space; i++) {
-            System.out.print(' ');
-        }
- 
-        System.out.print(r.getDato());
- 
-        // imprime el hijo izquierdo
-        System.out.println();
-        Mostrar(r.getLigaI(), space, height);
     }
     
     public int ContarHojas(Nodo r){
@@ -360,5 +349,7 @@ public class Arbol {
             }
         }
     }
+    
+    
     
 }
