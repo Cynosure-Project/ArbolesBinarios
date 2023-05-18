@@ -72,38 +72,28 @@ public class Arbol {
     }
  
 
-     public void Insertar(Nodo R, char dato) {
-        if (R == null)
+     public void Insertar(Nodo R, char dato) 
+     {
+         Nodo x=new Nodo(dato);
+        if(R!=null)
         {
-            R = new Nodo(dato);
-        } else
-        {
-            if (dato < R.getDato())
+            if(R.getDato()>dato)
             {
                 if(R.getLigaI()==null)
                 {
-                    R.setLigaI(R);
+                    R.setLigaI(x);
                 }else
                 {
-                      if(R.getLigaD()==null)
-                    {
-                        R.setLigaD(R);
-                    }else
-                      {
-                          Insertar(R.getLigaI(), dato);
-                      }
-                    
-                }      
-
+                    Insertar(R.getLigaI(), dato); 
+                }
             }else
             {
-                if(dato>R.getDato())
+                if(R.getLigaD()==null)
                 {
-                    Insertar(R.getLigaD(), dato);
+                    R.setLigaD(x);
                 }else
                 {
-                  
-                   JOptionPane.showMessageDialog(null, "El dato ya existe en el árbol","Dato duplicado",2); 
+                    Insertar(R.getLigaD(), dato); 
                 }
             }
         }

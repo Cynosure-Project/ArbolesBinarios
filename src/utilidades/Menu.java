@@ -8,7 +8,7 @@ import utilidades.*;
 import logica.*;
 
 public class Menu {
-    public static Arbol a;
+    
     public static Vista V= new Vista();
     public static Validar v = new Validar();
    
@@ -106,8 +106,6 @@ public class Menu {
     
     public static void MenuContar(){
         int opcion;
-       
-
         do 
         {
             opcion = v.ValidarInt("""

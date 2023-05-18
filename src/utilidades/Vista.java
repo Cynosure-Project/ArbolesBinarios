@@ -25,7 +25,15 @@ public class Vista extends Arbol{
     {
         Validar v= new Validar();
         char c=v.ValidarChar("Ingrese letra a ingresar");
-        super.Insertar(this.getRaiz(), c);
+        if(super.BuscarDato(this.getRaiz(), c))
+        {
+            JOptionPane.showMessageDialog(null,"El dato ya está en el arbol","Dato duplicado",0);
+        }else
+        {
+            super.Insertar(this.getRaiz(), c);
+            JOptionPane.showMessageDialog(null,"El dato se ha insertado con éxito","Ingreso exitoso",3);
+        }
+        
     }
     public void VistaInorden()
     {
@@ -78,6 +86,8 @@ public class Vista extends Arbol{
     {
         
     }
+    
+    
     public void VistaAncestros() {
         String s;
         Validar v= new Validar();
