@@ -20,34 +20,6 @@ public class Arbol {
     public void setRaiz(Nodo Raiz) {
         this.Raiz = Raiz;
     }
-//   public void Crear(char[] v, int i, Nodo p) {
-//        if (i < v.length) {
-//            Nodo x = new Nodo(v[i]);
-//
-//            if (i == 0) {
-//                this.setRaiz(x);
-//                Crear(v, i + 1, Raiz);
-//            } else if (x.getDato() < p.getDato()) {
-//                if (p.getLigaI() != null)
-//                    Crear(v, i, p.getLigaI());
-//                else {
-//                    p.setLigaI(x);
-//                    Crear(v, i + 1, Raiz);
-//                }
-//            } else if (x.getDato() > p.getDato()) {
-//                if (p.getLigaD() != null)
-//                    Crear(v, i, p.getLigaD());
-//                else {
-//                    p.setLigaD(x);
-//                    Crear(v, i + 1, Raiz);
-//                }
-//            } else if (x.getDato() == p.getDato()) {
-//                // Si el dato es igual, no se realiza ninguna acción.
-//            }
-//        }
-//    
-//}
-
 
     public void Crear(char[] v, int i, Nodo p){
         Nodo x;
@@ -103,7 +75,7 @@ public class Arbol {
      public void Insertar(Nodo R, char dato) {
         if (R == null)
         {
-            Nodo x = new Nodo(dato);
+            R = new Nodo(dato);
         } else
         {
             if (dato < R.getDato())

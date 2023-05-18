@@ -101,7 +101,7 @@ public class Vista extends Arbol{
         char c=v.ValidarChar("Ingresa el dato del que quieres saber su altura");
         if(super.BuscarDato(this.getRaiz(), c))
         {
-            //JOptionPane.showMessageDialog(null,"La altura de "+ c +" es: " +super.Altura(this.getRaiz()),c);
+            JOptionPane.showMessageDialog(null,"La altura de "+ c +" es: " +super.Altura(super.Buscar(this.getRaiz(), c)));
         }else
         {
             JOptionPane.showMessageDialog(null,"El dato no está en el arbol","Dato no encontrado",0);
