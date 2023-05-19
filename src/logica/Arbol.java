@@ -1,15 +1,15 @@
-
 package logica;
 
 import arbolesbinarios.*;
 import javax.swing.JOptionPane;
+
 import utilidades.Nodo;
 
 public class Arbol {
-    
+
     private Nodo Raiz;
-    
-    public Arbol(){
+
+    public Arbol() {
         Raiz = null;
     }
 
@@ -20,183 +20,429 @@ public class Arbol {
     public void setRaiz(Nodo Raiz) {
         this.Raiz = Raiz;
     }
-    
-    public Arbol Crear(String s){
-        char[] v;
-        Arbol a = new Arbol();
-        int i;
-        Nodo x, p = new Nodo();
-        
-        v = s.toCharArray();
-        
-        for(i=0; i<v.length; i++)
+
+    public void Crear(char[] v, int i, Nodo p) {
+        Nodo x;
+        boolean b;
+
+        b = false;
+
+        if (i < v.length)
         {
-            x = new Nodo();
-            x.setDato(v[i]);
-            
-            if(i == 0)
+            x = new Nodo(v[i]);
+
+            if (i == 0)
             {
                 Raiz = x;
-            }
-            else
+                Crear(v, i + 1, Raiz);
+            } else if (x.getDato() < p.getDato())
             {
-                if(x.getDato() < p.getDato())
+                if (p.getLigaI() != null)
+                {
+                    Crear(v, i, p.getLigaI());
+                } else
                 {
                     p.setLigaI(x);
+
+                    b = true;
                 }
-                else
+            } else if (x.getDato() > p.getDato())
+            {
+                if (p.getLigaD() != null)
                 {
-                    if(x.getDato() > p.getDato())
-                    {
-                        p.setLigaD(x);
-                    }
+                    Crear(v, i, p.getLigaD());
+                } else
+                {
+                    p.setLigaD(x);
+
+                    b = true;
                 }
-            } 
+            } else if (x.getDato() == p.getDato())
+            {
+                b = true;
+            }
+        }
+
+        if (b)
+        {
+            Crear(v, i + 1, Raiz);
+        }
+
+    }
+
+    public void Insertar(Nodo R, char dato) {
+        Nodo x = new Nodo(dato);
+        if (R != null)
+        {
+            if (R.getDato() > dato)
+            {
+                if (R.getLigaI() == null)
+                {
+                    R.setLigaI(x);
+                } else
+                {
+                    Insertar(R.getLigaI(), dato);
+                }
+            } else
+            {
+                if (R.getLigaD() == null)
+                {
+                    R.setLigaD(x);
+                } else
+                {
+                    Insertar(R.getLigaD(), dato);
+                }
+            }
+        }
+    }
+
+    public void RecorrerInorden(Nodo r, StringBuilder s) {
+        if (r != null)
+        {
+            RecorrerInorden(r.getLigaI(), s);
+            s.append(r.getDato()).append(" ");
+            RecorrerInorden(r.getLigaD(), s);
+        }
+    }
+
+    public void RecorrerPreorden(Nodo r, StringBuilder s) {
+        if (r != null)
+        {
+            s.append(r.getDato()).append(" ");
+            RecorrerPreorden(r.getLigaI(), s);
+            RecorrerPreorden(r.getLigaD(), s);
+        }
+    }
+
+    public void RecorrerPosorden(Nodo r, StringBuilder s) {
+        if (r != null)
+        {
+            RecorrerPosorden(r.getLigaI(), s);
+            RecorrerPosorden(r.getLigaD(), s);
+            s.append(r.getDato()).append(" ");
+        }
+    }
+
+    public int ContarHojas(Nodo r) {
+        if (r == null)
+        {
+            return 0;
+        }
+        if (r.getLigaI() == null && r.getLigaD() == null)
+        {
+            return 1;
+        }
+        int contI = ContarHojas(r.getLigaI());
+        int contD = ContarHojas(r.getLigaD());
+
+        return contI + contD;
+    }
+
+    public int ContarPadres(Nodo r) {
+        if (r == null)
+        {
+            return 0;
+        }
+
+        if (r.getLigaI() != null || r.getLigaD() != null)
+        {
+            return 1 + ContarPadres(r.getLigaI()) + ContarPadres(r.getLigaD());
+        }
+
+        return 0;
+    }
+
+    public int ContarRegistrosCon1Hijo(Nodo r) {
+        int c = 0;
+        if (r == null)
+        {
+            return 0;
+        }
+
+        if ((r.getLigaI() != null && r.getLigaD() == null) || (r.getLigaI() == null && r.getLigaD() != null))
+        {
+            c++;
+        }
+
+        c += ContarRegistrosCon1Hijo(r.getLigaI());
+        c += ContarRegistrosCon1Hijo(r.getLigaD());
+
+        return c;
+    }
+
+    public boolean BuscarDato(Nodo R, char dato) {
+        if (R == null)
+        {
+            return false;
+        }
+
+        if (R.getDato() == dato)
+        {
+            return true;
+        }
+
+        if (dato < R.getDato())
+        {
+            return BuscarDato(R.getLigaI(), dato);
+        } else
+        {
+            return BuscarDato(R.getLigaD(), dato);
+        }
+    }
+
+    public Nodo Buscar(Nodo r, char d) {
+        Nodo n = new Nodo();
+
+        if (r.getDato() < d)
+        {
+            n = Buscar(r.getLigaD(), d);
+        } else if (r.getDato() > d)
+        {
+            n = Buscar(r.getLigaI(), d);
+        } else if (r.getDato() == d)
+        {
+            return r;
+        }
+
+        return n;
+    }
+
+    public int Nivel(Nodo r, char d) {
+        int c;
+
+        c = 0;
+
+        if (r.getDato() < d)
+        {
+            c = Nivel(r.getLigaD(), d) + 1;
+        } else if (r.getDato() > d)
+        {
+            c = Nivel(r.getLigaI(), d) + 1;
+        } else if (r.getDato() == d)
+        {
+            return 1;
+        }
+
+        return c;
+    }
+
+    public int NivelNodo(Nodo R, char dato, int nivel) {
+        if (R != null)
+        {
+            if (R.getDato() < dato)
+            {
+                nivel = NivelNodo(R.getLigaD(), dato, nivel++);
+            } else
+            {
+                nivel = NivelNodo(R.getLigaI(), dato, nivel++);
+            }
+            if (R == Raiz && R.getDato() == dato)
+            {
+                return 1;
+            } else if (R != Raiz && R.getDato() == dato)
+            {
+                return nivel;
+            }
+        }
+        return nivel;
+    }
+
+
+
+    public void Ancestros(Nodo R, char dato, Nodo P, boolean b, StringBuilder sb) {
+        if (R != null && b)
+        {
+            if (R == Raiz && R.getDato() == dato)
+            {
+                sb.append("No tiene ancestros");
+                b = false;
+            } else if (R != Raiz && R.getDato() == dato)
+            {
+                b = false;
+            }
+
+            if (b)
+            {
+                sb.append(R.getDato()).append(" ");
+                if (R.getDato() < dato)
+                {
+                    Ancestros(R.getLigaD(), dato, R, b, sb);
+                } else
+                {
+                    Ancestros(R.getLigaI(), dato, R, b, sb);
+                }
+            }
+        }
+    }
+
+    public void Hermano(Nodo R, char dato, Nodo P) {
+        if (R != null)
+        {
+            Hermano(R.getLigaI(), dato, R);
+            if (R.getDato() == dato && R == Raiz)
+            {
+                JOptionPane.showMessageDialog(null, "No tiene hermanos");
+            } else if (R.getDato() == dato && R != Raiz)
+            {
+                if (P != null)
+                {
+                    if (P.getLigaD() != null && P.getLigaD() != R)
+                    {
+                        JOptionPane.showMessageDialog(null, "Hermano derecho: " + P.getLigaD().getDato());
+                    } else if (P.getLigaI() != null && P.getLigaI() != R)
+                    {
+                        JOptionPane.showMessageDialog(null, "Hermano izquierdo: " + P.getLigaI().getDato());
+                    } else
+                    {
+                        JOptionPane.showMessageDialog(null, "No tiene hermanos");
+                    }
+                } else
+                {
+                    JOptionPane.showMessageDialog(null, "No tiene hermanos");
+                }
+            }
+            Hermano(R.getLigaD(), dato, R);
+        }
+    }
+
+     public Nodo PrimosHermanos(Nodo r, Nodo p, Nodo a, char d, boolean[] sw){
+        if(d < r.getDato())
+        {
+            if(r.getLigaI() == null)
+                a = null;
+            else
+                a = PrimosHermanos(r.getLigaI(), r, p, d, sw);
+        }
+        else if(d > r.getDato())
+        {
+            if(r.getLigaD() == null)
+                a = null;
+            else
+                a = PrimosHermanos(r.getLigaD(), r, p, d, sw);
+        }
+        if(a != null && sw[0])
+        {
+            sw[0] = false;
+            if(p == a.getLigaD())
+                a = a.getLigaI();
+            else if(p == a.getLigaI())
+                a = a.getLigaD();
         }
         
         return a;
     }
- 
-    public void Insertar(char l){
-        Nodo p, x;
-        boolean b;
-        
-        x = new Nodo(l);
-        b = true;
-        
-        if(Raiz == null)
-            Raiz = x;
-        else
+
+    public int Altura(Nodo r) {
+        int ci;
+        int cd;
+
+        ci = -1;
+        cd = -1;
+
+        if (r != null)
         {
-            p = Raiz;
-            
-            while(b)
-            {
-                if(l<p.getDato() && p.getLigaI()!=null)
-                    p = p.getLigaI();
-                else
-                {
-                    if(l < p.getDato())
-                        b = false;
-                }
-                
-                if(l>p.getDato() && p.getLigaD()!=null)
-                    p = p.getLigaD();
-                else
-                {
-                    if(l > p.getDato())
-                        b = false;
-                }
-                
-                if(l == p.getDato())
-                    b = false;
-            }
-            
-            if(l < p.getDato())
-                p.setLigaI(x);
-            else
-                if(l > p.getDato())
-                    p.setLigaD(x);
-                else
-                    System.out.println("Ya existe el dato en el árbol");
+            ci = Arbol.this.Altura(r.getLigaI()) + 1;
+            cd = Arbol.this.Altura(r.getLigaD()) + 1;
         }
+
+        return Math.max(ci, cd);
     }
     
-    public void RecorrerInorden(Nodo r){
-        if(r != null)
-        {
-            RecorrerInorden(r.getLigaI());
-            Mostrar(r.getDato());
-            RecorrerInorden(r.getLigaD());
-        }
-    }
-    
-    public void RecorrerPreorden(Nodo r){
-        if(r != null)
-        {
-            Mostrar(r.getDato());
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
-        }
-    }
-    
-    public void RecorrerPosorden(Nodo r){
-        if(r != null)
-        {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
-            Mostrar(r.getDato());
-        }
-    }
-    
-    public void Mostrar(Nodo r, int space, int height){
-        // Caso base
-        if (r == null) {
-            return;
-        }
- 
-        // aumentar la distancia entre niveles
-        space += height;
- 
-        // imprime el hijo derecho primero
-        Mostrar(r.getLigaD(), space, height);
-        System.out.println();
- 
-        // imprime el nodo actual después de rellenar con espacios
-        for (int i = height; i < space; i++) {
-            System.out.print(' ');
-        }
- 
-        System.out.print(r.getDato());
- 
-        // imprime el hijo izquierdo
-        System.out.println();
-        Mostrar(r.getLigaI(), space, height);
-    }
-    
-    public void Mostrar(char c){
-        JOptionPane.showMessageDialog(null, " |" + c + "| ");
-    }
-    
-    public int ContarHojas(Nodo r, int c){
-        if(r != null)
-        {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
-            
-            if(r.getLigaI()==null && r.getLigaD()==null)
-                c++;
-        }
-        
-        return c; //que pasa con el return aca?
-    }
-    
-    public int ContarPadres(Nodo r, int c){
-        if(r != null)
-        {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
-            
-            if(r.getLigaI()!=null && r.getLigaD()!=null)
-                c++;
-        }
-        
-        return c;
-    }
-    
-    public int ContarRegistrosCon1Hijo(Nodo r, int c){//nombre epico?
-        if(r != null)
-        {
-            RecorrerInorden(r.getLigaI());
-            RecorrerInorden(r.getLigaD());
-            
-            if((r.getLigaI()==null && r.getLigaD()!=null) || (r.getLigaI()!=null && r.getLigaD()==null))
-                c++;
-        }
-        
-        return c;
-    }
-    
-    
-    
+
+//    /////        ------>    AVL   <-------     ///////////
+//
+//    public int FB(Nodo R) {
+//
+//        if (R == null)
+//        {
+//            return -1;
+//        }
+//
+//        int ci = Altura(R.getLigaI());
+//
+//        int cd = Altura(R.getLigaD());
+//
+//        return ci - cd;
+//    }
+//
+//    public Nodo RotacionIzquierda(Nodo P) {
+//        Nodo Q = P.getLigaI();
+//        P.setLigaI(Q.getLigaD());
+//        Q.setLigaD(P);
+//        P.setFB(Math.max(FB(P.getLigaI()), FB(P.getLigaD())) + 1);
+//        Q.setFB(Math.max(FB(Q.getLigaI()), FB(Q.getLigaD())) + 1);
+//        return Q;
+//    }
+// 
+//
+//   public Nodo RotacionDerecha(Nodo P) {
+//    Nodo Q = P.getLigaD();
+//    
+//        P.setLigaD(Q.getLigaI());
+//        Q.setLigaI(P);
+//        P.setFB(Math.max(FB(P.getLigaI()), FB(P.getLigaD())) + 1);
+//        Q.setFB(Math.max(FB(Q.getLigaI()), FB(Q.getLigaD())) + 1);
+//    
+//    return Q;
+//}
+//
+//
+//    public Nodo RotacionDobleIzquierda(Nodo P) {
+//        Nodo Q = P.getLigaI();
+//        Nodo R = Q.getLigaD();
+//        Q.setLigaD(R.getLigaI());
+//        R.setLigaI(Q);
+//        P.setLigaI(R.getLigaD());
+//        R.setLigaD(P);
+//        P.setFB(Math.max(FB(P.getLigaI()), FB(P.getLigaD())) + 1);
+//        Q.setFB(Math.max(FB(Q.getLigaI()), FB(Q.getLigaD())) + 1);
+//        R.setFB(Math.max(FB(R.getLigaI()), FB(R.getLigaD())) + 1);
+//        return R;
+//    }
+//
+//    public Nodo RotacionDobleDerecha(Nodo P) {
+//        Nodo Q = P.getLigaD();
+//        Nodo R = Q.getLigaI();
+//        Q.setLigaI(R.getLigaD());
+//        R.setLigaD(Q);
+//        P.setLigaD(R.getLigaI());
+//        R.setLigaI(P);
+//        P.setFB(Math.max(FB(P.getLigaI()), FB(P.getLigaD())) + 1);
+//        Q.setFB(Math.max(FB(Q.getLigaI()), FB(Q.getLigaD())) + 1);
+//        R.setFB(Math.max(FB(R.getLigaI()), FB(R.getLigaD())) + 1);
+//        return R;
+//    }
+//
+//    public Nodo ImplementarAvl(Nodo R) {
+//    if (R == null) {
+//        return null;
+//    }
+//
+//    int fb = FB(R);
+//
+//    if (fb > 1) {
+//        int fbi = FB(R.getLigaI());
+//        if (fbi >= 0) {
+//            R = RotacionDerecha(R);
+//        } else {
+//            R = RotacionDobleDerecha(R);
+//        }
+//    } else if (fb < -1) {
+//        int fbd = FB(R.getLigaD());
+//        if (fbd <= 0) {
+//            R = RotacionIzquierda(R);
+//        } else {
+//            R = RotacionDobleIzquierda(R);
+//        }
+//    }
+//
+//    
+//        ImplementarAvl(R.getLigaI());
+//        ImplementarAvl(R.getLigaD());
+//    
+//
+//    return R;
+//}
+
+
 }
