@@ -15,10 +15,15 @@ public class Vista {
     
     public void VistaCrear(){
         Validar v = new Validar();
+        
         String s = v.ValidarString("Ingrese letras a agregar en arbol binario (Mayúsculas, sin espacios, no ingresar Ñ)");
         char [] c = s.toCharArray() ;
         
-        a.Crear(c,0,a.getRaiz());
+            a.Crear(c,0,a.getRaiz());
+            AVL.CrearAvl(c);
+            
+        
+        
     }
     
     
@@ -26,8 +31,15 @@ public class Vista {
     {
         Validar v = new Validar();
         char c = v.ValidarChar("Ingrese letra a ingresar");
+        if(a.BuscarDato(a.getRaiz(), c))
+        {
+            JOptionPane.showMessageDialog(null,"El dato no está en el arbol","Dato duplicado",0);
+        }else
+        {
+            a.Insertar(a.getRaiz(), c);
+            VistaGrafica();
+        }
         
-        a.Insertar(a.getRaiz(), c);
     }
     
     public void VistaInorden()
@@ -148,38 +160,35 @@ public class Vista {
     }
 
 
-    public void VistaPrimosHermanos() {
+     public void VistaPrimosHermanos() 
+     {
         Validar v = new Validar();
-        char c = v.ValidarChar("¿De qué dato deseas hallar sus hermanos?: ");
+        char c = v.ValidarChar("¿De qué dato deseas hallar sus primos hermanos?: ");
+        boolean[] sw = new boolean[1];
+        sw[0] = true;
         if(a.BuscarDato(a.getRaiz(), c))
         {
-        Nodo A = a.PrimosHermanos(a.Buscar(a.getRaiz(), c), null, null, c);
+        Nodo n = a.PrimosHermanos(a.getRaiz(), null, null, c, sw);
         
-        if(A==null)
-            JOptionPane.showMessageDialog(null,"El nodo no posee primos");
-        else if(A.getLigaI()==null && A.getLigaD()==null)
-            JOptionPane.showMessageDialog(null,"El nodo no posee primos");
-        else if(A.getLigaI()==null)
-            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + A.getLigaD().getDato());
-        else if(A.getLigaD()==null)
-            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + A.getLigaI().getDato());
+        if(n == null)
+            JOptionPane.showMessageDialog(null,"El nodo no posee primos hermanos");
+        else if(n.getLigaI()==null && n.getLigaD()==null)
+            JOptionPane.showMessageDialog(null,"El nodo no posee primos hermanos");
+        else if(n.getLigaI()==null)
+            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + n.getLigaD().getDato());
+        else if(n.getLigaD()==null)
+            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + n.getLigaI().getDato());
         else
-            JOptionPane.showMessageDialog(null,"Los primos hermanos de " + c + " son: " + A.getLigaI().getDato() + " y " + A.getLigaD().getDato());
+            JOptionPane.showMessageDialog(null,"Los primos hermanos de " + c + " son: " + n.getLigaI().getDato() + " y " + n.getLigaD().getDato());
         }else
         {
-             JOptionPane.showMessageDialog(null,"El dato no está en el arbol","Dato no encontrado",0);
-        }      
+            JOptionPane.showMessageDialog(null,"El dato no está en el arbol","Dato no encontrado",0);
+        }
     }
+   
     
     public void VistaAVL()
-    {
-        Validar v= new Validar();
-        
-        String s=v.ValidarString("Ingrese letras a agregar en arbol binario (Mayúsculas, sin espacios, no ingresar Ñ)");
-        char [] c=s.toCharArray() ;
-        AVL.CrearAvl(c);
-        
-        
+    {   
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -189,7 +198,10 @@ public class Vista {
             }
         });
         
+        StringBuilder sb = new StringBuilder();
         
+        AVL.RecorrerInorden(AVL.getRaiz(), sb);
+        JOptionPane.showMessageDialog(null, sb.toString());
         
     }
    

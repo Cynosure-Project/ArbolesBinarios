@@ -247,16 +247,7 @@ public class Arbol {
         return nivel;
     }
 
-    public void MostrarArbol(Nodo R, StringBuilder s) {
-        if (R != null)
-        {
 
-            MostrarArbol(R.getLigaI(), s);
-            s.append(R.getDato()).append(" ");
-
-            MostrarArbol(R.getLigaD(), s);
-        }
-    }
 
     public void Ancestros(Nodo R, char dato, Nodo P, boolean b, StringBuilder sb) {
         if (R != null && b)
@@ -314,41 +305,32 @@ public class Arbol {
         }
     }
 
-    public Nodo PrimosHermanos(Nodo r, Nodo p, Nodo a, char d) {
-        if (d < r.getDato())
+     public Nodo PrimosHermanos(Nodo r, Nodo p, Nodo a, char d, boolean[] sw){
+        if(d < r.getDato())
         {
-            if (r.getLigaI() == null)
-            {
+            if(r.getLigaI() == null)
                 a = null;
-            } else
-            {
-                PrimosHermanos(r.getLigaI(), r, p, d);
-            }
-        } else if (d > r.getDato())
-        {
-            if (r.getLigaD() == null)
-            {
-                a = null;
-            } else
-            {
-                PrimosHermanos(r.getLigaD(), r, p, d);
-            }
+            else
+                a = PrimosHermanos(r.getLigaI(), r, p, d, sw);
         }
-
-        if (a != null)
+        else if(d > r.getDato())
         {
-            if (p == a.getLigaD())
-            {
+            if(r.getLigaD() == null)
+                a = null;
+            else
+                a = PrimosHermanos(r.getLigaD(), r, p, d, sw);
+        }
+        if(a != null && sw[0])
+        {
+            sw[0] = false;
+            if(p == a.getLigaD())
                 a = a.getLigaI();
-            } else
-            {
+            else if(p == a.getLigaI())
                 a = a.getLigaD();
-            }
         }
-
+        
         return a;
     }
-
 
     public int Altura(Nodo r) {
         int ci;
@@ -365,6 +347,8 @@ public class Arbol {
 
         return Math.max(ci, cd);
     }
+    
+
 //    /////        ------>    AVL   <-------     ///////////
 //
 //    public int FB(Nodo R) {
