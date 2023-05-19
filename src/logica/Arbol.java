@@ -217,33 +217,33 @@ public class Arbol extends JPanel {
         return Math.max(ci, cd);
     }
     
-    public Nodo PrimosHermanos(Nodo r, Nodo p, Nodo a, char d){
+    public Nodo PrimosHermanos(Nodo r, Nodo p, Nodo a, char d, boolean[] sw){
         if(d < r.getDato())
         {
             if(r.getLigaI() == null)
                 a = null;
             else
-                PrimosHermanos(r.getLigaI(), r, p, d);
+                a = PrimosHermanos(r.getLigaI(), r, p, d, sw);
         }
         else if(d > r.getDato())
         {
             if(r.getLigaD() == null)
                 a = null;
             else
-                PrimosHermanos(r.getLigaD(), r, p, d);
+                a = PrimosHermanos(r.getLigaD(), r, p, d, sw);
         }
-        
-        if(a != null)
+        if(a != null && sw[0])
         {
+            sw[0] = false;
             if(p == a.getLigaD())
                 a = a.getLigaI();
-            else
+            else if(p == a.getLigaI())
                 a = a.getLigaD();
         }
         
         return a;
     }
-    
+
     public boolean BuscarDato(Nodo R, char dato) {
         if (R == null)
             return false;

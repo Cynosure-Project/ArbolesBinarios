@@ -22,10 +22,14 @@ public class Vista {
     
     public void VistaMostrar()
     {
-        StringBuilder sb = new StringBuilder();
-        
-        a.Mostrar(a.getRaiz(),sb);
-        JOptionPane.showMessageDialog(null, sb.toString());
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new ArbolBinarioGrafico(a);
+                frame.setSize(400, 400);
+                frame.setVisible(true);
+            }
+        });
     }
     
     public void VistaInsertar()
@@ -92,9 +96,10 @@ public class Vista {
     
     public void VistaPrimosHermanos() {
         Validar v = new Validar();
-        char c = v.ValidarChar("¿De qué dato deseas hallar sus hermanos?: ");
-        Nodo n = null;
-        n = a.PrimosHermanos(a.Buscar(a.getRaiz(), c), null, null, c);
+        char c = v.ValidarChar("¿De qué dato deseas hallar sus primos hermanos?: ");
+        boolean[] sw = new boolean[1];
+        sw[0] = true;
+        Nodo n = a.PrimosHermanos(a.getRaiz(), null, null, c, sw);
         
         if(n == null)
             JOptionPane.showMessageDialog(null,"El nodo no posee primos hermanos");
@@ -156,18 +161,6 @@ public class Vista {
        {
            JOptionPane.showMessageDialog(null,"El dato no está en el arbol","Dato no encontrado",0);
        }
-    }
-    
-    public void VistaGrafica()
-    {   
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new ArbolBinarioGrafico(a);
-                frame.setSize(400, 400);
-                frame.setVisible(true);
-            }
-        });
     }
     
 }
