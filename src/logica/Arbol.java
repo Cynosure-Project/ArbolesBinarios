@@ -72,19 +72,25 @@ public class Arbol extends JPanel {
                     b = true;
                 }
             }
+            else if(x.getDato() == p.getDato())
+            {
+                b = true;
+            }
+        }
+       
+        if (b)
+        {
+         Crear(v, i + 1, Raiz);
         }
         
-        if(b)
-            Crear(v, i+1, Raiz);
     }
  
-    public void Insertar(Nodo r, char d) 
-     {
+    public void Insertar(Nodo r, char d){
         Nodo x = new Nodo(d);
         
         if(r != null)
         {
-            if(r.getDato()>d)
+            if(r.getDato() > d)
             {
                 if(r.getLigaI() == null)
                     r.setLigaI(x);
@@ -93,13 +99,13 @@ public class Arbol extends JPanel {
             }
             else
             {
-                if(r.getLigaD()==null)
+                if(r.getLigaD() == null)
                     r.setLigaD(x);
                 else
                     Insertar(r.getLigaD(), d); 
             }
         }
-     }
+    }
     
     public void RecorrerInorden(Nodo r, StringBuilder s){
         if(r != null)
@@ -311,7 +317,5 @@ public class Arbol extends JPanel {
             }
         }
     }
-    
-    
     
 }

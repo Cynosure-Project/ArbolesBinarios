@@ -9,21 +9,22 @@ import logica.Validar;
 import utilidades.*;
 import java.awt.Dimension;
 
-public class Vista extends Arbol{
+public class Vista {
+    public Arbol a = new Arbol();
     
     public void VistaCrear(){
         Validar v = new Validar();
         String s = v.ValidarString("Ingrese letras a agregar en arbol binario (Mayúsculas, sin espacios, no ingresar Ñ)");
         char [] c = s.toCharArray() ;
         
-        super.Crear(c,0,this.getRaiz());
+        a.Crear(c,0,a.getRaiz());
     }
     
     public void VistaMostrar()
     {
         StringBuilder sb = new StringBuilder();
         
-        super.Mostrar(this.getRaiz(),sb);
+        a.Mostrar(a.getRaiz(),sb);
         JOptionPane.showMessageDialog(null, sb.toString());
     }
     
@@ -32,14 +33,14 @@ public class Vista extends Arbol{
         Validar v = new Validar();
         char c = v.ValidarChar("Ingrese letra a ingresar");
         
-        //super.Insertar(this.getRaiz(), c);
+        a.Insertar(a.getRaiz(), c);
     }
     
     public void VistaInorden()
     {
         StringBuilder sb = new StringBuilder();
         
-        super.RecorrerInorden(this.getRaiz(), sb);
+        a.RecorrerInorden(a.getRaiz(), sb);
         JOptionPane.showMessageDialog(null, sb.toString());
     }
     
@@ -47,7 +48,7 @@ public class Vista extends Arbol{
     {
         StringBuilder sb = new StringBuilder();
         
-        super.RecorrerPosorden(this.getRaiz(), sb);
+        a.RecorrerPosorden(a.getRaiz(), sb);
         JOptionPane.showMessageDialog(null, sb.toString());
     }
     
@@ -55,23 +56,23 @@ public class Vista extends Arbol{
     {
         StringBuilder sb = new StringBuilder();
         
-        super.RecorrerPreorden(this.getRaiz(), sb);
+        a.RecorrerPreorden(a.getRaiz(), sb);
         JOptionPane.showMessageDialog(null, sb.toString());
     }
     
     public void VistaContarHojas()
     {
-        JOptionPane.showMessageDialog(null, "El árbol tiene " + super.ContarHojas(this.getRaiz()) + " hojas");
+        JOptionPane.showMessageDialog(null, "El árbol tiene " + a.ContarHojas(a.getRaiz()) + " hojas");
     }
     
     public void VistaContarPadres()
     {
-        JOptionPane.showMessageDialog(null, "El árbol tiene " + super.ContarPadres(this.getRaiz()) + " padres");
+        JOptionPane.showMessageDialog(null, "El árbol tiene " + a.ContarPadres(a.getRaiz()) + " padres");
     }
     
     public void VistaRegistroscon1Hijo()
     {
-         JOptionPane.showMessageDialog(null, "El árbol tiene " + super.ContarRegistrosCon1Hijo(this.getRaiz()) + " registros con un sólo hijo");
+         JOptionPane.showMessageDialog(null, "El árbol tiene " + a.ContarRegistrosCon1Hijo(a.getRaiz()) + " registros con un sólo hijo");
     }
     
     public void VistaHermanos()
@@ -79,9 +80,9 @@ public class Vista extends Arbol{
         Validar v = new Validar();
         char c = v.ValidarChar("¿De qué dato deseas hallar su hermano? ");
         
-        if(super.BuscarDato(this.getRaiz(), c))
+        if(a.BuscarDato(a.getRaiz(), c))
         {
-            super.Hermano(this.getRaiz(), c, null);
+            a.Hermano(a.getRaiz(), c, null);
         }
         else
         {
@@ -92,19 +93,19 @@ public class Vista extends Arbol{
     public void VistaPrimosHermanos() {
         Validar v = new Validar();
         char c = v.ValidarChar("¿De qué dato deseas hallar sus hermanos?: ");
+        Nodo n = null;
+        n = a.PrimosHermanos(a.Buscar(a.getRaiz(), c), null, null, c);
         
-        Nodo a = PrimosHermanos(Buscar(this.getRaiz(), c), null, null, c);
-        
-        if(a==null)
-            JOptionPane.showMessageDialog(null,"El nodo no posee primos");
-        else if(a.getLigaI()==null && a.getLigaD()==null)
-            JOptionPane.showMessageDialog(null,"El nodo no posee primos");
-        else if(a.getLigaI()==null)
-            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + a.getLigaD().getDato());
-        else if(a.getLigaD()==null)
-            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + a.getLigaI().getDato());
+        if(n == null)
+            JOptionPane.showMessageDialog(null,"El nodo no posee primos hermanos");
+        else if(n.getLigaI()==null && n.getLigaD()==null)
+            JOptionPane.showMessageDialog(null,"El nodo no posee primos hermanos");
+        else if(n.getLigaI()==null)
+            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + n.getLigaD().getDato());
+        else if(n.getLigaD()==null)
+            JOptionPane.showMessageDialog(null,"El primo hermano de " + c + " es: " + n.getLigaI().getDato());
         else
-            JOptionPane.showMessageDialog(null,"Los primos hermanos de " + c + " son: " + a.getLigaI().getDato() + " y " + a.getLigaD().getDato());
+            JOptionPane.showMessageDialog(null,"Los primos hermanos de " + c + " son: " + n.getLigaI().getDato() + " y " + n.getLigaD().getDato());
     }
     
     public void VistaAncestros() {
@@ -113,11 +114,11 @@ public class Vista extends Arbol{
         StringBuilder sb = new StringBuilder();
         char c = v.ValidarChar("¿De qué dato deseas hallar sus ancestros?: ");
         
-        Ancestros(this.getRaiz(), c, null, true, sb);
+        a.Ancestros(a.getRaiz(), c, null, true, sb);
         
         s = sb.toString();
         
-        if(super.BuscarDato(this.getRaiz(), c))
+        if(a.BuscarDato(a.getRaiz(), c))
         {
             JOptionPane.showMessageDialog(null,"Los ancestros de "+ c +" son: " +s);
         }
@@ -132,9 +133,9 @@ public class Vista extends Arbol{
         Validar v = new Validar();
         char c = v.ValidarChar("Ingresa el dato del que quieres saber su altura");
         
-        if(super.BuscarDato(this.getRaiz(), c))
+        if(a.BuscarDato(a.getRaiz(), c))
         {
-            JOptionPane.showMessageDialog(null,"La altura de "+ c +" es: " +super.Altura(super.Buscar(this.getRaiz(), c)));
+            JOptionPane.showMessageDialog(null,"La altura de " + c + " es: " + a.Altura(a.Buscar(a.getRaiz(), c)));
         }
         else
         {
@@ -147,9 +148,9 @@ public class Vista extends Arbol{
        Validar v = new Validar();
        char c = v.ValidarChar("Ingresa el dato del que quieres saber el nivel");
        
-       if(super.BuscarDato(this.getRaiz(), c))
+       if(a.BuscarDato(a.getRaiz(), c))
        {
-           JOptionPane.showMessageDialog(null,"El nivel de "+ c +" es: " +super.Nivel(this.getRaiz(), c));
+           JOptionPane.showMessageDialog(null,"El nivel de " + c + " es: " + a.Nivel(a.getRaiz(), c));
        }
        else
        {
@@ -159,11 +160,14 @@ public class Vista extends Arbol{
     
     public void VistaGrafica()
     {   
-        SwingUtilities.invokeLater(() -> {
-            super.createAndShowGUI();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new ArbolBinarioGrafico(a);
+                frame.setSize(400, 400);
+                frame.setVisible(true);
+            }
         });
     }
-   
-    
     
 }
