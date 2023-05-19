@@ -10,9 +10,9 @@ public class Validar {
         while (s.equals(""))
         {
             s = JOptionPane.showInputDialog(t);
-
-             
-            if (!s.matches("^[A-Z]+$")) 
+            
+            s = s.toUpperCase();
+            if (!s.matches("^[A-Za-z]+$")) 
             {
                 s = "";
 
@@ -31,8 +31,9 @@ public class Validar {
         
         while (!b)
         {
-            s = JOptionPane.showInputDialog(t);            
-            if(s.matches("[A-Z]{1}"))
+            s = JOptionPane.showInputDialog(t); 
+            s=s.toUpperCase();
+            if(s.matches("[A-Za-z]{1}"))
             {
                 b = true;
                 return s.charAt(0);

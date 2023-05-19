@@ -159,7 +159,6 @@ public class Menu {
                         3. Mostrar hermano de un nodo
                         4. Mostrar Ancestros de un nodo
                         5. Mostrar Primos hermanos de un nodo
-                        6. Mostrar arbol graficamente
                         0. Salir 
                                     """);
 
