@@ -26,14 +26,15 @@ public class Menu {
                                 2. Insertar
                                 3. Recorrer
                                 4. Contar
-                                5. Mostrar   
+                                5. Mostrar (hermanos, primos, ancestros, etc) 
+                                6. AVL
                                 0. Salir 
                                     """);
 
             switch(opcion)
             {
                     case 1:
-                        V.VistaMostrar();
+                        V.VistaGrafica();
                         
                         break;
                         
@@ -51,6 +52,9 @@ public class Menu {
                     case 5:
                         MenuMostrar();
                         break;
+                    case 6:
+                        V.VistaAVL();
+                        break;    
                     case 0:
                         JOptionPane.showMessageDialog(null, "Gracias por probar nuestro proyecto","Salir",3);
                         break;
@@ -142,19 +146,21 @@ public class Menu {
         while(opcion != 0);
     }
     
-    public static void MenuMostrar(){
+   public static void MenuMostrar(){
         int opcion;
+        
         do 
         {
             opcion = v.ValidarInt("""
                                Menu Mostrar
                                   
-                                1. Mostrar Altura de un dato.
-                                2. Mostrar nivel de un dato.
-                                3. Mostrar hermano de un dato.
-                                4. Mostrar Ancestros de un dato.
-                                5. Mostrar Primos hermanos de un dato.
-                                0. Salir 
+                        1. Mostrar Altura de nodo
+                        2. Mostrar nivel de nodo
+                        3. Mostrar hermano de un nodo
+                        4. Mostrar Ancestros de un nodo
+                        5. Mostrar Primos hermanos de un nodo
+                        6. Mostrar arbol graficamente
+                        0. Salir 
                                     """);
 
             switch(opcion)
@@ -170,11 +176,14 @@ public class Menu {
                     case 3:
                         V.VistaHermanos();
                         break;
+                        
                     case 4:
                         V.VistaAncestros();
                         break;
+                        
                     case 5: 
                         V.VistaPrimosHermanos();
+                      
 
                     case 0:
     
@@ -187,6 +196,5 @@ public class Menu {
         }
         while(opcion != 0);
     }
-    
     
 }
