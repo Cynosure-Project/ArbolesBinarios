@@ -320,7 +320,7 @@ public class Arbol {
             else
                 a = PrimosHermanos(r.getLigaD(), r, p, d, sw);
         }
-        if(a != null && sw[0])
+        if(a!=null && sw[0])
         {
             sw[0] = false;
             if(p == a.getLigaD())
