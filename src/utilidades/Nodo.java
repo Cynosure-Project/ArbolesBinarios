@@ -10,8 +10,13 @@ public class Nodo {
         LigaI = null;
         Dato = '\0';
         LigaD = null;
-        FB=0;
-        
+        FB=0;  
+    }
+    
+    public Nodo (char d) {
+        LigaI = null;
+        Dato = d;
+        LigaD = null;
     }
 
     public int getFB() {
@@ -20,12 +25,6 @@ public class Nodo {
 
     public void setFB(int FB) {
         this.FB = FB;
-    }
-    
-    public Nodo (char d) {
-        LigaI = null;
-        Dato = d;
-        LigaD = null;
     }
     
     public char getDato() {
